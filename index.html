@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orenovba's AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #0d0d0d, #1a1a1a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      width: 90%;
+      max-width: 400px;
+      background: #2e2e2e;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+    .chat-header {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      background: #111;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.3);
+    }
+    .chat-box div {
+      margin: 10px 0;
+    }
+    input[type="text"] {
+      width: 75%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px;
+      background: #00ffff;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #009999;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">Orenovba's AI</div>
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="chat-input" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const responses = {
+      "what is your name": "I'm Orenovba's AI chatbot, your assistant!",
+      "how are you": "I'm just code, but always happy to chat!",
+      "what is html": "HTML stands for HyperText Markup Language. It structures content on the web.",
+      "what is javascript": "JavaScript is a programming language used to make websites interactive.",
+      "who created you": "I was created by Orenovba using HTML, CSS, and JavaScript.",
+      "tell me a joke": "Why did the web developer go broke? Because he used up all his cache!",
+      "what is css": "CSS stands for Cascading Style Sheets. It controls the look of a webpage.",
+      "bye": "Goodbye! Come back anytime!",
+      "hello": "Hi there! I'm here to answer your questions.",
+      "what can you do": "I can answer questions I'm programmed for — no internet needed!",
+      "how do you work": "I work based on predefined responses to your queries. I'm entirely client-side."
+      // Add more Q&A here
+    };
+
+    function normalize(text) {
+      return text.trim().toLowerCase();
+    }
+
+    function sendMessage(event) {
+      if (!event || event.key === "Enter" || event.type === "click") {
+        const input = document.getElementById("chat-input");
+        const chatBox = document.getElementById("chat-box");
+        const userMessage = input.value.trim();
+
+        if (!userMessage) return;
+
+        const userDiv = document.createElement("div");
+        userDiv.innerHTML = `<strong>You:</strong> ${userMessage}`;
+        chatBox.appendChild(userDiv);
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const aiDiv = document.createElement("div");
+        const key = normalize(userMessage);
+        const reply = responses[key] || "Sorry, I don't know how to respond to that yet.";
+        aiDiv.innerHTML = `<strong>AI:</strong> ${reply}`;
+        chatBox.appendChild(aiDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+
+    window.onload = () => {
+      document.getElementById("chat-input").addEventListener("keypress", sendMessage);
+    };
+  </script>
+</body>
+</html>
